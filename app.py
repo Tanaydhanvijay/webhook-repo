@@ -1,13 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 from datetime import datetime
 
 app = Flask(__name__)
 
+
 # 🟢 Connect to your local MongoDB server
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://tanaydhanvijay:i!Q3yTTXK_uAp2q@cluster0.vwydarf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client['github_webhook']           # Database name
 collection = db['events']               # Collection name
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # 🔴 GitHub will send webhook events to this endpoint
 @app.route('/webhook', methods=['POST'])
@@ -62,3 +67,4 @@ def get_events():
 # 🚀 Start the Flask server on port 5000
 if __name__ == '__main__':
     app.run(port=5000)
+
